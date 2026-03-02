@@ -6,7 +6,6 @@ import http from 'k6/http';
 import { check, group, sleep } from 'k6';
 import { Counter, Trend } from 'k6/metrics';
 
-// ── Métricas personalizadas ──────────────────────────────────────
 const failedRequests  = new Counter('solicitudes_fallidas');
 const tiempoHealth    = new Trend('tiempo_health',  true);
 const tiempoItems     = new Trend('tiempo_items',   true);
@@ -33,13 +32,12 @@ export const options = {
 // ── URL base ─────────────────────────────────────────────────────
 const BASE = __ENV.BASE_URL || 'http://localhost:3000';
 
-// ── Helper: parsea body de forma segura ──────────────────────────
+// ── Helper ──────────────────────────
 function parseBody(r) {
   try { return JSON.parse(r.body); }
   catch (_) { return null; }
 }
 
-// ── Escenario principal ──────────────────────────────────────────
 export default function () {
 
   // ── Prueba 1: Estado del servidor (/health) ──────────────────
